@@ -1,0 +1,38 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "7ecf289"
+  },
+  "schemaVersion": 18,
+  "id": "Form_DetermineRisk",
+  "components": [
+    {
+      "label": "Driver's Experience ",
+      "type": "textfield",
+      "id": "Field_0xw1hbu",
+      "key": "experience",
+      "description": "Driver's Experience in Years",
+      "disabled": false,
+      "readonly": true
+    },
+    {
+      "label": "Approve Policy?",
+      "values": [
+        {
+          "label": "Yes",
+          "value": "green"
+        },
+        {
+          "label": "No",
+          "value": "red"
+        }
+      ],
+      "type": "radio",
+      "id": "Field_0ues61u",
+      "key": "risk"
+    }
+  ],
+  "type": "default"
+}
