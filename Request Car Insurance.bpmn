@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0zqvwec" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="7ecf289" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.7.0" camunda:diagramRelationId="0a956b6a-877f-4631-b234-61e2396b58f1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0zqvwec" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="3afe2c3" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0" camunda:diagramRelationId="0a956b6a-877f-4631-b234-61e2396b58f1">
   <bpmn:process id="RequestCarInsuranceProcess" name="Request Car Insurance" isExecutable="true">
     <bpmn:extensionElements>
-      <zeebe:versionTag value="1.1" />
+      <zeebe:versionTag value="1.2" />
     </bpmn:extensionElements>
     <bpmn:startEvent id="StartEvent_RequestReceived" name="Request Received">
       <bpmn:outgoing>requestReceived-gatewayExperience</bpmn:outgoing>
@@ -16,11 +16,11 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="gatewayExperience-highRisk" name="Red" sourceRef="gatewayRisk" targetRef="Task_HighRisk" />
     <bpmn:sequenceFlow id="gatewayReceived-determineRisk" name="Yellow" sourceRef="gatewayRisk" targetRef="Task_DetermineRisk">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=risk = "yellow"
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=riskCode = "yellow"
 </bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="gatewayReceived-lowRisk" name="Green" sourceRef="gatewayRisk" targetRef="Task_LowRisk">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=risk = "green"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=riskCode = "green"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Task_DetermineRisk" name="Determine Risk">
       <bpmn:extensionElements>
@@ -84,6 +84,10 @@
     <bpmn:businessRuleTask id="Activity_DetermineRisk" name="Determine Risk">
       <bpmn:extensionElements>
         <zeebe:calledDecision decisionId="Decision_DetermineRisk" resultVariable="risk" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=risk.code" target="riskCode" />
+          <zeebe:output source="=risk.description" target="riskDescription" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>requestReceived-gatewayExperience</bpmn:incoming>
       <bpmn:outgoing>Flow_18z22x1</bpmn:outgoing>
@@ -95,6 +99,18 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RequestCarInsuranceProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_RequestReceived">
+        <dc:Bounds x="92" y="52" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="66" y="95" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12e2vy7_di" bpmnElement="gatewayRisk" isMarkerVisible="true">
+        <dc:Bounds x="375" y="65" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="336" y="108" width="28" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_193dzfg_di" bpmnElement="Task_DetermineRisk">
         <dc:Bounds x="520" y="250" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -139,21 +155,9 @@
       <bpmndi:BPMNShape id="Gateway_1ypebf5_di" bpmnElement="Gateway_1ypebf5" isMarkerVisible="true">
         <dc:Bounds x="735" y="425" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_12e2vy7_di" bpmnElement="gatewayRisk" isMarkerVisible="true">
-        <dc:Bounds x="375" y="65" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="336" y="108" width="28" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1sa9jtt_di" bpmnElement="Activity_DetermineRisk">
         <dc:Bounds x="220" y="30" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_RequestReceived">
-        <dc:Bounds x="92" y="52" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="66" y="95" width="90" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0vipaae_di" bpmnElement="TextAnnotation_0vipaae">
         <dc:Bounds x="650" y="190" width="100" height="41" />
@@ -230,15 +234,15 @@
         <di:waypoint x="785" y="450" />
         <di:waypoint x="900" y="450" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0wvo4o3_di" bpmnElement="Association_0wvo4o3">
-        <di:waypoint x="620" y="259" />
-        <di:waypoint x="664" y="231" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_18z22x1_di" bpmnElement="Flow_18z22x1">
         <di:waypoint x="320" y="70" />
         <di:waypoint x="348" y="70" />
         <di:waypoint x="348" y="90" />
         <di:waypoint x="375" y="90" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0wvo4o3_di" bpmnElement="Association_0wvo4o3">
+        <di:waypoint x="620" y="259" />
+        <di:waypoint x="664" y="231" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

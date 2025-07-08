@@ -4,40 +4,82 @@
     <informationRequirement id="InformationRequirement_1fhf5lx">
       <requiredInput href="#experience" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_11fmtoj">
+    <decisionTable id="DecisionTable_11fmtoj" hitPolicy="FIRST">
       <input id="Input_1" label="Experience">
         <inputExpression id="InputExpression_1" typeRef="number">
           <text>experience</text>
         </inputExpression>
+      </input>
+      <input id="InputClause_1o0ndgr" label=" Car Type">
+        <inputExpression id="LiteralExpression_0kzvcvp" typeRef="string">
+          <text>carType</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0hmwjin">
+          <text>"small","family","luxury"</text>
+        </inputValues>
       </input>
       <output id="Output_1" label="Code" name="code" typeRef="string">
         <outputValues id="UnaryTests_0ntit5i">
           <text>"red","yellow","green"</text>
         </outputValues>
       </output>
+      <output id="OutputClause_1w9ayd9" label="Description" name="description" typeRef="string" />
       <rule id="DecisionRule_1s8jnt7">
         <inputEntry id="UnaryTests_0bubbt6">
           <text>&lt;=2.0</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_1873nak">
+          <text>"family","luxury"</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_1avgnyj">
           <text>"red"</text>
         </outputEntry>
+        <outputEntry id="LiteralExpression_047z5ta">
+          <text>"Too Risky"</text>
+        </outputEntry>
       </rule>
       <rule id="DecisionRule_1ovueio">
-        <description>Determine Risk Manually</description>
+        <description></description>
         <inputEntry id="UnaryTests_1e8p0uf">
-          <text>]2.0 .. 3.0]</text>
+          <text>&gt;2.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_027wvuu">
+          <text>"small"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0vyuiht">
-          <text>"yellow"	</text>
+          <text>"green"	</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0t1sczf">
+          <text>"Small Car, No Risk"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_12guq1v">
         <inputEntry id="UnaryTests_1vxsrhe">
-          <text>&gt;3.0</text>
+          <text>&gt;4.0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01ge0ku">
+          <text>"family","luxury"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_00xnieb">
           <text>"green"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nmhacv">
+          <text>"Experienced Driver, No Risk"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0i8klka">
+        <description>Determine Risk Manually</description>
+        <inputEntry id="UnaryTests_1nmh1aw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lfd0gr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bpc953">
+          <text>"yellow"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05sqwyi">
+          <text>"Manual Determination"</text>
         </outputEntry>
       </rule>
     </decisionTable>
